@@ -1,7 +1,5 @@
 import InfoBubble from "@/components/infoBubble";
 import UploadVideo from "@/components/uploadVideo";
-import Image from "next/image";
-import GoosianceName from "@/assets/GoosianceName.webp";
 
 const Home = () => {
   return (

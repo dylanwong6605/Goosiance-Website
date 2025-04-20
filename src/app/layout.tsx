@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
-import { Inter, Irish_Grover } from "next/font/google"; // import both fonts
+import { Inter } from "next/font/google"; // import both fonts
 
 const inter = Inter({ subsets: ["latin"] });
 
