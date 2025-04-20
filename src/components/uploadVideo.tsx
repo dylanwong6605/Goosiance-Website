@@ -152,10 +152,8 @@ const UploadVideo = () => {
   return (
     <div className="container mx-auto px-4 py-8 max-w-4xl">
       <header className="mb-10 text-center">
-        <h1 className="text-4xl font-bold text-indigo-600 mb-2">
-          Video Uploader
-        </h1>
-        <p className="text-gray-600">
+        <h1 className="text-4xl font-bold text-white mb-2">Video Uploader</h1>
+        <p className="text-white">
           Upload your videos and watch them instantly
         </p>
       </header>
