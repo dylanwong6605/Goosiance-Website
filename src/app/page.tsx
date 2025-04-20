@@ -1,16 +1,23 @@
 import InfoBubble from "@/components/infoBubble";
 import UploadVideo from "@/components/uploadVideo";
 import Image from "next/image";
-import GoosianceName from "@/assets/GoosianceName.webp";
+import GoosianceName from "@/assets/GooseLogo.webp";
+
+import { Irish_Grover } from "next/font/google";
+const irsih = Irish_Grover({ subsets: ["latin"], weight: "400" });
 
 const Home = () => {
   return (
-    <div className="flex flex-col items-center gap-6 p-6 bg-gradient-to-b from-goose-red-419 to-goose-red-419 min-h-screen font-irish leading-none tracking-wider">
+    <div
+      className={`flex flex-col ${irsih.className} items-center gap-6 p-6 bg-gradient-to-b from-goose-red-419 to-goose-red-419 min-h-screen leading-none tracking-wider`}
+    >
       <Image
         src={GoosianceName}
         alt="Title"
-        className="w-[60%] md:[25%] lg:w-[50%] ml-4 mb-5"
+        className="w-[60%] md:[25%] lg:w-[80%] ml-4 mb-5"
       />
+
+      <UploadVideo />
 
       <InfoBubble
         text="What is Goosiance?"
@@ -25,8 +32,6 @@ const Home = () => {
         width={1000}
         textSize={25}
       />
-
-      <UploadVideo/>
 
       <InfoBubble
         text="How To Use Goosiance?"
