@@ -1,5 +1,13 @@
 "use client";
 import React, { useEffect, useRef, useState } from "react";
+import axios from "axios";
+
+interface VideoHistoryItem {
+  title: string;
+  size: string;
+  duration: string;
+  url: string;
+}
 
 const UploadVideo = () => {
   const [uploadProgress, setUploadProgress] = useState(0);
@@ -10,10 +18,9 @@ const UploadVideo = () => {
     size: "",
     duration: "",
   });
-  const [history, setHistory] = useState<any[]>([]);
+  const [history, setHistory] = useState<VideoHistoryItem[]>([]);
   const videoPlayerRef = useRef<HTMLVideoElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
-  const axios = require("axios");
 
   const handleFiles = (files: FileList) => {
     const file = files[0];
@@ -99,9 +106,6 @@ const UploadVideo = () => {
     if (!context) return;
 
     function streamVideoFrame() {
-      // --- 1. Set Canvas Size ---
-      const frame = videoPlayerRef.current;
-
       // 2. Draw the current video frame onto the hidden canvas
       if (video && canvas && context) {
         frameCount++;
