@@ -3,7 +3,6 @@ import "./globals.css";
 import { Inter, Irish_Grover } from "next/font/google"; // import both fonts
 
 const inter = Inter({ subsets: ["latin"] });
-const irishGrover = Irish_Grover({ subsets: ["latin"], weight: "400" });
 
 export const metadata: Metadata = {
   title: "Create Next App",
