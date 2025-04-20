@@ -13,7 +13,7 @@ const UploadVideo = () => {
   const [history, setHistory] = useState<any[]>([]);
   const videoPlayerRef = useRef<HTMLVideoElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
-  const [shouldSendFrames, setShouldSendFrames] = useState(false);
+  const axios = require("axios");
 
   const handleFiles = (files: FileList) => {
     const file = files[0];
@@ -73,9 +73,26 @@ const UploadVideo = () => {
     if (e.target.files?.length) handleFiles(e.target.files);
   };
 
+  async function updateValues(max1: number, max2: number, max3: number) {
+    try {
+      const resp = await axios.get(
+        "https://aloftballoon.pythonanywhere.com/api/value",
+        { params: { max1, max2, max3 } },
+      );
+      console.log("API replied:", resp.data);
+    } catch (err) {
+      if (err instanceof Error) {
+        console.error("Error calling API:", err.message);
+      } else {
+        console.error("Error calling API:", err);
+      }
+    }
+  }
+
   useEffect(() => {
     const video = videoPlayerRef.current;
     const canvas = canvasRef.current;
+    let frameCount = 0;
     if (!video || !canvas) return;
 
     const context = canvas.getContext("2d");
@@ -87,54 +104,40 @@ const UploadVideo = () => {
 
       // 2. Draw the current video frame onto the hidden canvas
       if (video && canvas && context) {
-        context.drawImage(video, 0, 0, canvas.width, canvas.height);
+        frameCount++;
+        if (frameCount % 5 == 0) {
+          frameCount = 1;
+          context.drawImage(video, 0, 0, canvas.width, canvas.height);
 
-        // Send the frame data to the Flask server
-        // Use the Fetch API to send a POST request to the Flask server
-        // Ensure the server is running and the endpoint is correct
-        // --- 3. Extract Pixel Data and Calculate Average RGB ---
-        const imageData = context.getImageData(
-          0,
-          0,
-          canvas.width,
-          canvas.height,
-        );
-        const pixels = imageData.data;
-        let totalRed = 0;
-        let totalGreen = 0;
-        let totalBlue = 0;
-        const numPixels = pixels.length / 4; // Each pixel has RGBA
+          // Send the frame data to the Flask server
+          // Use the Fetch API to send a POST request to the Flask server
+          // Ensure the server is running and the endpoint is correct
+          // --- 3. Extract Pixel Data and Calculate Average RGB ---
+          const imageData = context.getImageData(
+            0,
+            0,
+            canvas.width,
+            canvas.height,
+          );
+          const pixels = imageData.data;
+          let totalRed = 0;
+          let totalGreen = 0;
+          let totalBlue = 0;
+          const numPixels = pixels.length / 4; // Each pixel has RGBA
 
-        for (let i = 0; i < pixels.length; i += 4) {
-          totalRed += pixels[i]; // Red component
-          totalGreen += pixels[i + 1]; // Green component
-          totalBlue += pixels[i + 2]; // Blue component
-          // Alpha component (pixels[i + 3]) is ignored for average color
+          for (let i = 0; i < pixels.length; i += 4) {
+            totalRed += pixels[i]; // Red component
+            totalGreen += pixels[i + 1]; // Green component
+            totalBlue += pixels[i + 2]; // Blue component
+            // Alpha component (pixels[i + 3]) is ignored for average color
+          }
+
+          const avgRed = totalRed / numPixels;
+          const avgGreen = totalGreen / numPixels;
+          const avgBlue = totalBlue / numPixels;
+
+          updateValues(avgRed, avgGreen, avgBlue);
         }
-
-        const avgRed = totalRed / numPixels;
-        const avgGreen = totalGreen / numPixels;
-        const avgBlue = totalBlue / numPixels;
-
-        const apiUrl = `https://aloftballoon.pythonanywhere.com/api/value?max1=${avgRed}&max2=${avgGreen}&max3=${avgBlue}`;
-
-        // Send the GET request to the external API
-        fetch(apiUrl, {
-            mode: 'no-cors' // This tells the browser NOT to enforce CORS on the response
-        })
-        .then(() => {
-            // With mode: 'no-cors', you cannot read the response status or body.
-            // This .then() block simply confirms the fetch request
-            // was initiated by the browser successfully. It does NOT
-            // confirm the server received or processed it correctly.
-            console.log("GET request sent to external API with no-cors mode.");
-            // DO NOT try to access response.ok, response.status, response.json(), etc. here.
-        })
-        .catch((error) => {
-            // This catch block handles errors that occur *before* the
-            // browser even successfully initiates the fetch, e.g., network issues.
-            console.error("Network error or issue initiating fetch with no-cors:", error);
-        });
       }
       video?.requestVideoFrameCallback(streamVideoFrame);
     }
