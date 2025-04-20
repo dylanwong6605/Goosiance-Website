@@ -150,10 +150,12 @@ const UploadVideo = () => {
   }, [videoSrc]);
 
   return (
-    <div className="container mx-auto px-4 py-8 max-w-4xl">
-      <header className="mb-10 text-center">
-        <h1 className="text-4xl font-bold text-white mb-2">Video Uploader</h1>
-        <p className="text-white">
+    <div className="container mx-auto px-4 py-8 max-w-4xl justify-center">
+      <header className="w-2/3 justify-self-center mb-10 text-center bg-red-100 rounded-4xl shadow-md p-6">
+        <h1 className="text-4xl font-bold text- mb-2 text-goose-red-419">
+          Video Uploader
+        </h1>
+        <p className="text-goose-red-419">
           Upload your videos and watch them instantly
         </p>
       </header>
@@ -167,17 +169,17 @@ const UploadVideo = () => {
           <div
             onDrop={handleDrop}
             onDragOver={(e) => e.preventDefault()}
-            className="border-2 border-dashed border-gray-300 hover:border-indigo-600 bg-white hover:bg-indigo-50 rounded-lg p-8 text-center cursor-pointer mb-4"
+            className="border-2 border-dashed border-gray-300 hover:border-red-400 bg-white hover:bg-red-100 rounded-lg p-8 text-center cursor-pointer mb-4"
           >
             <div className="flex flex-col items-center justify-center">
-              <i className="fas fa-cloud-upload-alt text-5xl text-indigo-500 mb-4" />
+              <i className="fas fa-cloud-upload-alt text-5xl text-red-400 mb-4" />
               <p className="text-lg font-medium text-gray-700 mb-2">
                 Drag & drop your video here
               </p>
               <p className="text-gray-500 mb-4">or</p>
               <label
                 htmlFor="video-upload"
-                className="bg-indigo-600 hover:bg-indigo-700 text-white font-medium py-2 px-6 rounded-md cursor-pointer transition-colors"
+                className="bg-red-400 hover:bg-red-600 text-white font-medium py-2 px-6 rounded-md cursor-pointer transition-colors"
               >
                 Browse Files
               </label>
@@ -199,7 +201,7 @@ const UploadVideo = () => {
               </div>
               <div className="h-2 bg-gray-200 rounded-full overflow-hidden">
                 <div
-                  className="h-full bg-indigo-600 transition-all duration-300"
+                  className="h-full bg-red-600 transition-all duration-300"
                   style={{ width: `${uploadProgress}%` }}
                 ></div>
               </div>
@@ -234,7 +236,7 @@ const UploadVideo = () => {
               <a
                 href={videoSrc}
                 download={`${videoInfo.title}.mp4`}
-                className="bg-indigo-600 hover:bg-indigo-700 text-white font-medium py-2 px-4 rounded-md transition-colors"
+                className="bg-red-400 hover:bg-red-600 text-white font-medium py-2 px-4 rounded-md transition-colors"
               >
                 <i className="fas fa-download mr-2" />
                 Download

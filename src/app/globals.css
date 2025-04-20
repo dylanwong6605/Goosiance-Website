@@ -1,3 +1,15 @@
 @import "tailwindcss";
 
 @config '../../tailwind.config.ts';
+
+/* globals.css */
+@font-face {
+  font-family: "Irish Grover";
+  src: url("/assets/fonts/IrishGrover-Regular.ttf") format("truetype"); /* Adjust the path as needed */
+  font-weight: normal;
+  font-style: normal;
+}
+
+body {
+  font-family: "Irish Grover", sans-serif; /* Apply Irish Grover font as default */
+}
